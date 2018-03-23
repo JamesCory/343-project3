@@ -4,7 +4,7 @@ from observable import Observable
 from observer import Observer
 
 
-class room(Observable):
+class Room(Observable):
     def update(self, *args, **kwargs):
         pass
 
@@ -121,7 +121,7 @@ class Weapon(object):
 class AK47(Weapon):
     name="Ak-47"  #For When you absolutely need to kill every... -Pulp Fiction
     atkMod= 9000.1 #ATTACK IS OVER 9000!
-    uses=10000000000 #Ammo is plentiful in your house?
+    uses=10000000000 #Ammo is plentiful?
 
 #For those who want a more fantasy experience, same stats as the candy
 #More fantastical
@@ -236,9 +236,12 @@ class Player(object):
 class dungeon(object):
 
     def __init__(self, sizeX,sizeY):
-        self.sizeX=sizeX
-        self.sizeY=sizeY
-        self.dungeonMap = [[0 for x in range(sizeX)] for y in range(sizeY)]
+        self.sizeX=int(sizeX)
+        self.sizeY=int(sizeY)
+        print("\nSize x:" +sizeX)
+        print(type(self.sizeX))
+        print("\nSize y:" +sizeY)
+        self.dungeonMap = [[0 for x in range(self.sizeX)] for y in range(self.sizeY)]
 
     def getSizeX(self):
         return self.sizeX  # Size in the x direction
@@ -255,7 +258,8 @@ class dungeon(object):
             for x in range(0, self.sizeX):
                 for y in range(0, self.sizeY):
 
-                    room = room() #monsters are in the rooms
+                    room = Room()
+                    #monsters are in the rooms
                     rand = random.randint(0, 10) #Random number of monsters
                     for i in range(0, rand): #Each monster is random
 
@@ -267,28 +271,28 @@ class dungeon(object):
                             atk = random.randint(0, 10)
                             health = random.randint(50, 100)
                             z = Zombie(atk, health)
-                            house.add_observer(z)
+                            Room.add_observer(self,z)
                             z.update()
 
                         if rand == 1: #Randomly create a vampire
                             atk = random.randint(10, 20)
                             health = random.randint(100, 200)
                             v = Vampire(atk, health)
-                            house.add_observer(v)
+                            Room.add_observer(self,v)
                             v.update()
 
                         if rand == 2:#Randomly create a ghoul
                             atk = random.randint(15, 30)
                             health = random.randint(40, 80)
                             g = Ghoul(atk, health)
-                            house.add_observer(g)
+                            Room.add_observer(self,g)
                             g.update()
 
                         if rand == 3:#Randomly create a werewolf
                             atk = random.randint(0, 40)
                             health = 200 #werewolves have constant health
-                            w = Werewolf(attack,health)
-                            house.add_observer(w)
+                            w = Werewolf(atk,health)
+                            Room.add_observer(self,w)
                             w.update()
                     self.dungeonMap[x][y] = room
 
@@ -297,10 +301,10 @@ class instance(object):
 
     def __init__(self, sizeX,sizeY):
         self.sizeX = sizeX
-        self.sizeY = SizeY
+        self.sizeY = sizeY
 
         self.p = Player()
-        self.d = dungeon(sizeX,SizeY)
+        self.d = dungeon(sizeX,sizeY)
         self.d.populate()
         self.playerXPos = 0
         self.playerYPos = 0
