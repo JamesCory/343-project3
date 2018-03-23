@@ -175,6 +175,7 @@ class Player(object):
     inventory.append(BroadSword) #every adventurer gets a sword
     i=1
     while i<10:
+        i=i+1
         rand=random.randint(0,2) #Randomly distribute weapons
         if rand==0:
             inventory.append(CrossBow)
